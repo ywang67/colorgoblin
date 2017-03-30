@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Big Mirror Coding Test</title>
+
+    <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+    <script src="https://google.github.io/traceur-compiler/bin/BrowserSystem.js"></script>
+    <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="form-control text-center" id="secret" style="color:grey">???</div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <button class="btn btn-default btn-block" id="clear">Clear</button>
+        </div>
+
+        <br />
+
+        <div id="content"></div>
+
+    </div>
+    <script type="module">
+        $(document).ready(function () {
+            $.ajax({
+                url : "https://private-f3b4b-interview2.apiary-mock.com/data",
+                success : function (data) {
+                    for (var key in data) {
+                        var image = '<img class="img-responsive img-circle center-block" src="' + data[key].image + '" />';
+                        var name = data[key].name;
+                        var timestamp = new Date(parseInt(data[key].timestamp));
+                        var date = timestamp.getMonth() + '/' + timestamp.getDate() + '/' + timestamp.getFullYear();
+                        var inner = '<div class="row" id="'+ key + '">' +
+                            '<div class="col-sm-2 col-xs-12">' + image +'</div>'+
+                            '<div class="col-sm-10 col-xs-12">'+
+                            '<h1 class="name text-uppercase">' + name + '</h1>'+
+                            '<div class="timestamp">' + date + '</div>'+
+                            '</div>'+
+                            '</div>';
+                        if (key <= data.length - 2) {
+                            inner += '<hr style="border-top: dashed 2px red;" />';
+                        }
+                        $('#content').append(inner);
+
+                        let a = data[key].secret; //let 定义局部变量 ，var 是全局变量，取最后一个定义的值， let，constant，var
+                        $("#"+key).click(function() {
+                            $("#secret").css({"background-color": a, "color":"white"}).text(a);
+                        });
+                    }
+
+                }
+            });
+            $('#clear').click(function () {
+                $("#secret").css({"background-color":"white","color":"grey"}).text("???");
+            });
+        });
+    </script>
+</body>
+</html>

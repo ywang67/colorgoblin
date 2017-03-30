@@ -1,0 +1,16 @@
+#content {
+    background-color: darkgray;
+}
+
+@media screen and (max-width: 768px) {
+    .name, .timestamp {
+        text-align: center
+    }
+    #0,#1,#2 {
+        margin:50px;
+        padding: 50px;
+    }
+    img {
+        width: 70%
+    }
+}
